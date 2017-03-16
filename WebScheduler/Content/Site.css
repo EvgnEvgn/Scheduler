@@ -1,0 +1,38 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+#contentWrapper {
+    text-align: center;
+}
+ #contentWrapper input{
+    max-width: 30%;
+     display: inline-block;
+}
+ #contentWrapper ul{
+    list-style: none;
+}
+ #contentWrapper h2 {
+     margin-bottom: 30px;
+ }
+ #taskList li {
+     margin-bottom: 10px;
+ }
+ .btn-add {
+    color: #ffffff;
+    background-color: #428bca;
+    border-color: #357ebd;
+ }
+ .error:focus {
+     border-color: red;
+     outline: 0;
+     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+ }
+ .errMsg {
+     max-width: 67%;
+     margin-bottom: 5px;
+ }
+
+
+

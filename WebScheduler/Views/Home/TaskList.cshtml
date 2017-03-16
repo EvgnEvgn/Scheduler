@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WebScheduler.Models.Task>
+
+<div id="taskList">
+
+    <ul>
+        @foreach (var task in Model)
+        {
+            <li>
+                <input type="text" id="inp-@task.Id" value="@task.TaskContent" class="form-control" disabled  /> 
+                <span> <button type="button" id="btn-@task.Id" class="btn btn-default edit" >Редактировать</button></span>
+                <span>@Ajax.ActionLink("Удалить", "DeleteTask", new { id = task.Id }, new AjaxOptions { UpdateTargetId = "taskList" }, new { @class = "btn btn-danger delete" })  </span> 
+            </li>
+        }
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $('#addTask').keyup(function () {
+            var empty = false;
+            var val = $('#addTask').val();
+            val = $.trim(val);
+            if( val === "") {
+                empty = true;
+            }   
+            if (empty) {
+                $('#btnAdd').attr('disabled', 'disabled');
+            } else {
+                $('#btnAdd').removeAttr('disabled');
+            }
+        });
+        $('#addTask').blur(function() {
+            var val = $(this).val().trim();
+            $(this).val(val);
+        });
+  
+        var input;
+        $('[id^=btn-]').click(function (e) {
+            var temp = e.target.id;
+            temp = temp.slice(4);
+            input = '#inp-' + temp;
+            $(input).removeAttr('disabled').focus();
+        }); 
+        $('[id ^= inp-]').change(function (exp) {
+            
+            var inpId = this.id.slice(4);
+            $.post('@Url.Action("EditTask","Home")', { 'id': inpId, 'task': $(this).val() });
+        });
+        $('[id ^= inp-]').keyup(function (ex) {
+            var val = $(this).val();
+            val = $.trim(val);
+            if (val === "") {
+                $(this).addClass('error');
+                $('.delete, .edit').attr('disabled', 'disabled');
+            } else {
+                $(this).removeClass('error');
+                $('.delete, .edit').removeAttr('disabled');
+            }
+        });
+        var isEmpty = false;
+        var isAlert = false;
+        $('[id ^= inp-]').blur(function() {
+            var val = $(this).val().trim();
+            $(this).val(val);
+            
+            if (val === "") {
+                $(this).focus();
+                if (!isAlert) {
+                    $(this).before("<div class='errMsg'><span class='alert alert-danger'>Пустое поле запрещено!</span></div>");
+                    isAlert = true;
+                }
+            }
+            else {
+                isEmpty = false;
+                $(this).attr('disabled', 'disabled');
+                if (isAlert) {
+                    $('.errMsg').detach();
+                    isAlert = false;
+
+                }
+            }
+         });
+    });
+</script>

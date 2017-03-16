@@ -1,0 +1,22 @@
+﻿@model IEnumerable<WebScheduler.Models.Task>
+@{
+    ViewBag.Title = "";
+}
+
+<div id="contentWrapper">
+    <h2>Запланируйте что-нибудь на будущее</h2>
+    @using (Ajax.BeginForm("AddTask", new AjaxOptions
+    {
+        UpdateTargetId = "result",
+    }
+    ))
+    {
+        <input type="text" name="newTask" id="addTask" class="form-control"/>
+        <input type="submit" id="btnAdd" value="Добавить" class="btn btn-primary" disabled/>
+    }
+    
+    <h2>Ваши планы</h2>
+    <div id="result">
+        @Html.Partial("TaskList", Model)
+    </div>
+</div>
